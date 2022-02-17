@@ -13,7 +13,7 @@ public class Main {
         listener.init();
         //Create bot
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "NzQ1NzM4NTI3NzAyMTIyNTM2.Xz2JIA.TyNmFfcLtMb8nHn4nrKQowhUo5Q"; //<--Insert bot token
+        String token = ""; //<--Insert bot token
         builder.setToken(token);
         builder.addEventListeners(listener);
         builder.build();    //Build bot

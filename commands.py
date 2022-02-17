@@ -17,5 +17,9 @@ def dc(expression):
     f.close()
     os.remove(tempdcFilepath)
     return output
-    #return subprocess.check_output([command])
-    
+
+def spam(name):
+    return ("pfish")
+
+def a(arg):
+    return ("a")

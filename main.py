@@ -1,6 +1,6 @@
 from cgitb import text
 import discord
-#import commands
+import commands
 import os
 import string
 
@@ -18,9 +18,16 @@ async def on_message(message):
         return
 
     if message.content.startswith(botPrefix):
-        textMessage = message.content.split(botPrefix)[1]
+        textMessage = message.content.split(botPrefix,1)[1]
+        splitTextMessage = textMessage.split(" ")
+        print("Imput detecteted: "+ textMessage +"\n Searching for command: "+splitTextMessage[0])
+        try:
+            outputMessage = getattr(commands, splitTextMessage[0])(splitTextMessage)
+        except AttributeError:
+            print("Command not found")
+            outputMessage = "This command does not exist!"
 
-        await message.channel.send(textMessage)
+        await message.channel.send(outputMessage)
 
 def getToken():
     filepath = os.path.join(os.getcwd(), "token.txt")
@@ -38,6 +45,9 @@ def getToken():
     token = f.read()
     f.close()
     return token
+
+def spam(a):
+    print("a")
 
 print("Building client...")
 client.run(getToken())

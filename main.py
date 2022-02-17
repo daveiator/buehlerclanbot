@@ -1,33 +1,9 @@
-from cgitb import text
 import discord
 import commands
 import os
-import string
 
-client = discord.Client()
 
 botPrefix = "!"
-
-
-@client.event
-async def on_ready():
-    print('Logged in as {0.user}'.format(client))
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith(botPrefix):
-        textMessage = message.content.split(botPrefix,1)[1]
-        splitTextMessage = textMessage.split(" ")
-        print("Imput detecteted: "+ textMessage +"\n Searching for command: "+splitTextMessage[0])
-        try:
-            outputMessage = getattr(commands, splitTextMessage[0])(splitTextMessage)
-        except AttributeError:
-            print("Command not found")
-            outputMessage = "This command does not exist!"
-
-        await message.channel.send(outputMessage)
 
 def getToken():
     filepath = os.path.join(os.getcwd(), "token.txt")
@@ -46,10 +22,28 @@ def getToken():
     f.close()
     return token
 
-def spam(a):
-    print("a")
+
+
+class botClient(commands.Commands):
+
+    async def on_ready(self):
+        print('Logged in as {0.user}'.format(self))
+
+
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+
+        if message.content.startswith(botPrefix):
+            textMessage = message.content.split(botPrefix,1)[1]
+            splitTextMessage = textMessage.split(" ")
+            print("Imput detecteted: "+ textMessage +"\n Searching for command: "+splitTextMessage[0])
+            try:
+                await getattr(self, splitTextMessage[0])(message,splitTextMessage)
+            except AttributeError:
+                print("Command not found")
+                await message.channel.send("This command does not exist!")
 
 print("Building client...")
+client = botClient()
 client.run(getToken())
-
-#print(commands.dc("123p"))

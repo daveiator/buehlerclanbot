@@ -1,19 +1,26 @@
+from cgitb import text
 import discord
+#import commands
 import os
+import string
 
 client = discord.Client()
+
+botPrefix = "!"
+
 
 @client.event
 async def on_ready():
     print('Logged in as {0.user}'.format(client))
-
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('!suffer'):
-        await message.channel.send('pain')
+    if message.content.startswith(botPrefix):
+        textMessage = message.content.split(botPrefix)[1]
+
+        await message.channel.send(textMessage)
 
 def getToken():
     filepath = os.path.join(os.getcwd(), "token.txt")
@@ -34,3 +41,5 @@ def getToken():
 
 print("Building client...")
 client.run(getToken())
+
+#print(commands.dc("123p"))

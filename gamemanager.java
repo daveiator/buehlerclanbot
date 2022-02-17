@@ -38,8 +38,7 @@ public class Gamemanager {
         switch (lcmessage) {
             case "games":
                 //List all games
-                String output = "
-Aveilable games:\n";
+                String output = "Aveilable games:\n";
                 for (int i = 0; i < allGames.length; i++) {
                     output = String.join("\n▫",allGames[i].getName());
 

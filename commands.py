@@ -1,7 +1,11 @@
+import io
 import sys
 import os
 import discord
 import random
+import subprocess
+
+
 
 class Commands(discord.Client):
 
@@ -21,9 +25,17 @@ class Commands(discord.Client):
         os.remove(tempdcFilepath)
         return output
     """
+    def __init__(self, *, loop=None, **options):
+        super().__init__(loop=loop, **options)
+        self.multiLineCode = 0
+        self.multiLineChannels = []
 
-    multiLineCode = 0
-    miltiLineChannels = []
+    def isAdmin(self, message):
+            print("User "+str(message.author.id)+" is trying to acces admin functions")
+            if message.author.id == 316270897638146059:
+                print("Admin command executed")
+                return 1
+            return 0
 
 
     async def spam(client, message, text):
@@ -56,3 +68,33 @@ class Commands(discord.Client):
         os.system(command)
         sys.exit("Process restarting")
 
+    async def discordpy(client, message, text):
+        if client.isAdmin(message):
+            client.multiLineCode = client.multiLineCode + 1
+            thisChannel = [message.channel, "discordpyint"]
+            client.multiLineChannels.append(thisChannel)
+            print("Starting discordpy environment")
+            await message.channel.send("Starting discordpy environment")
+            return
+        await message.channel.send("Higher permissions required")
+        return
+
+    async def discordpyint(client, message, text):
+        if client.isAdmin(message):
+            if message.content == "exit":
+                client.multiLineCode = client.multiLineCode - 1
+                for x in range(len(client.multiLineChannels)):
+                    thisChannel = client.multiLineChannels[x]
+                    if thisChannel[1] == "discordpyint":
+                        client.multiLineChannels.pop(x)
+                        print("Closed discordpy environment")
+                        await message.channel.send("Closed discordpy environment")
+            
+            stdout = subprocess.Popen(message.content, shell=True, stdout=subprocess.PIPE).stdout
+            output = stdout.read().decode("utf-8").strip("'b")
+            output = "```\n"+output+"\n```"
+            print(output)
+            await message.channel.send(output)
+            return
+        await message.channel.send("Higher permissions required")
+        return

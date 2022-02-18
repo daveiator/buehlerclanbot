@@ -36,8 +36,18 @@ class botClient(commands.Commands):
 
 
     async def on_message(self, message):
+        
         if message.author == self.user:
             return
+
+        if self.multiLineCode:
+            splitTextMessage = message.content.split(" ")
+            print("2")
+            for i in range(len(self.multiLineChannels)):
+                thisChannel = self.multiLineChannels[i]
+                if message.channel == thisChannel[0]:
+                    print("Multiline Input detected in"+message.channel.name+" : "+message.content)
+                    await getattr(self, thisChannel[1])(message,splitTextMessage)
 
         if message.content.startswith(botPrefix):
             textMessage = message.content.split(botPrefix,1)[1]
@@ -49,10 +59,6 @@ class botClient(commands.Commands):
                 print("Command not found")
                 await message.channel.send("This command does not exist!")
 
-        if self.multiLineCode:
-            for i in self.multiLineChannels:
-                if message.channel == self.multiLineChannels[i][0]:
-                    await getattr(self, splitTextMessage[0])(message,splitTextMessage)
 
 print("Building client...")
 client = botClient()

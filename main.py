@@ -2,6 +2,7 @@ import discord
 import commands
 import os
 from time import sleep
+print("Startup in t 2")
 sleep(2)
 
 
@@ -47,6 +48,11 @@ class botClient(commands.Commands):
             except AttributeError:
                 print("Command not found")
                 await message.channel.send("This command does not exist!")
+
+        if self.multiLineCode:
+            for i in self.multiLineChannels:
+                if message.channel == self.multiLineChannels[i][0]:
+                    await getattr(self, splitTextMessage[0])(message,splitTextMessage)
 
 print("Building client...")
 client = botClient()

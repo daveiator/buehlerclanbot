@@ -1,2 +1,3 @@
 # buehlerclanbot
-Dicord Bot
+Unofficial Walter discord bot
+leicht gebingondert

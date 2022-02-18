@@ -1,6 +1,7 @@
 import sys
 import os
 import discord
+import random
 
 class Commands(discord.Client):
 
@@ -21,6 +22,10 @@ class Commands(discord.Client):
         return output
     """
 
+    multiLineCode = 0
+    miltiLineChannels = []
+
+
     async def spam(client, message, text):
             output = text[1]
             for x in range(int(text[2])):
@@ -32,8 +37,22 @@ class Commands(discord.Client):
         print("a")
         return
 
-    def restart(client, message, text):
+    async def meowwoem(client, message, text):
+        await message.channel.send("https://media.discordapp.net/attachments/736362433634893924/746391689123594341/image0-5-2.gif")
+        await message.channel.send("https://media.discordapp.net/attachments/736362433634893924/746391689421258912/image0-3-1.gif")
+        return
+
+    async def mock(client, message, text):
+        output = ''.join(random.choice((str.upper, str.lower))(c) for c in text[1])
+        await message.channel.send(output)
+        return
+
+
+    async def restart(client, message, text):
         command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
         print(command)
+        await message.channel.send("Restarting...\n```"+command+"```")
+        await message.channel.send("https://c.tenor.com/2kYfZmX6v6UAAAAC/stairs-da.gif")
         os.system(command)
         sys.exit("Process restarting")
+

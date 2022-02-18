@@ -4,6 +4,7 @@ import os
 
 
 botPrefix = "!"
+status = discord.Streaming(name="shreksophone",url="https://www.youtube.com/watch?v=pxw-5qfJ1dk&t=291s")
 
 def getToken():
     filepath = os.path.join(os.getcwd(), "token.txt")
@@ -27,6 +28,7 @@ def getToken():
 class botClient(commands.Commands):
 
     async def on_ready(self):
+        await self.change_presence(activity=status)
         print('Logged in as {0.user}'.format(self))
 
 

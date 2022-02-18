@@ -1,3 +1,4 @@
+import sys
 import os
 import discord
 
@@ -30,3 +31,9 @@ class Commands(discord.Client):
     async def a(client, message, text):
         print("a")
         return
+
+    def restart(client, message, text):
+        command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
+        print(command)
+        os.system(command)
+        sys.exit("Process restarting")

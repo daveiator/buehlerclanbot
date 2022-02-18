@@ -1,6 +1,8 @@
 import discord
 import commands
 import os
+from time import sleep
+sleep(2)
 
 
 botPrefix = "!"

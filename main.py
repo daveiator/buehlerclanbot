@@ -1,30 +1,18 @@
 import discord
 import commands
+import utils
 import os
+
 from time import sleep
-print("Startup in t 2")
-sleep(2)
+print("Main starting...")
+#sleep()
 
 
-botPrefix = "!"
+botPrefix = utils.getAttribute('botPrefix')
 status = discord.Streaming(name="shreksophone",url="https://www.youtube.com/watch?v=pxw-5qfJ1dk&t=291s")
 
-def getToken():
-    filepath = os.path.join(os.getcwd(), "token.txt")
-    try:
-        f = open(filepath)
-    except FileNotFoundError:
-        print("No Token found!\nPlease set new token:")
-        token = input()
-        f = open(filepath, "w+")
-        f.write(token)
-    finally:
-         f.close()
 
-    f = open(filepath, "r")
-    token = f.read()
-    f.close()
-    return token
+
 
 
 
@@ -33,6 +21,17 @@ class botClient(commands.Commands):
     async def on_ready(self):
         await self.change_presence(activity=status)
         print('Logged in as {0.user}'.format(self))
+
+        try:
+            f = open("restart.tmp","r")
+            channelID = f.read()
+            print("Client got restarted from "+channelID)
+            f.close()
+            os.remove("restart.tmp")
+            await self.get_channel(int(channelID)).send("```Restarted!```")
+        except: FileNotFoundError
+
+            
 
 
     async def on_message(self, message):
@@ -62,4 +61,4 @@ class botClient(commands.Commands):
 
 print("Building client...")
 client = botClient()
-client.run(getToken())
+client.run(utils.getAttribute('token'))

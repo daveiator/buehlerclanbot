@@ -4,6 +4,7 @@ import os
 import discord
 import random
 import subprocess
+import reddit
 
 
 
@@ -60,11 +61,21 @@ class Commands(discord.Client):
         return
 
 
+    async def reddit(client, message, text):
+        output = reddit.subredditRand(text[1])
+        print(output)
+        await message.channel.send(output)
+        return
+
     async def restart(client, message, text):
         command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
         print(command)
-        await message.channel.send("Restarting...\n```"+command+"```")
+        await message.channel.send("Restarting...")
         await message.channel.send("https://c.tenor.com/2kYfZmX6v6UAAAAC/stairs-da.gif")
+
+        f = open("restart.tmp","w+")
+        f.write(str(message.channel.id))
+        f.close()
         os.system(command)
         sys.exit("Process restarting")
 

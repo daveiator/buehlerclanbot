@@ -5,6 +5,7 @@ import discord
 import random
 import subprocess
 import reddit
+import utils
 
 
 
@@ -33,7 +34,7 @@ class Commands(discord.Client):
 
     def isAdmin(self, message):
             print("User "+str(message.author.id)+" is trying to acces admin functions")
-            if message.author.id == 316270897638146059:
+            if message.author.id == int(utils.getAttribute('admin_id')):
                 print("Admin command executed")
                 return 1
             return 0
@@ -79,27 +80,27 @@ class Commands(discord.Client):
         os.system(command)
         sys.exit("Process restarting")
 
-    async def discordpy(client, message, text):
+    async def terminal(client, message, text):
         if client.isAdmin(message):
             client.multiLineCode = client.multiLineCode + 1
-            thisChannel = [message.channel, "discordpyint"]
+            thisChannel = [message.channel, "terminalint"]
             client.multiLineChannels.append(thisChannel)
-            print("Starting discordpy environment")
-            await message.channel.send("Starting discordpy environment")
+            print("Starting terminal")
+            await message.channel.send("Starting terminal")
             return
         await message.channel.send("Higher permissions required")
         return
 
-    async def discordpyint(client, message, text):
+    async def terminalint(client, message, text):
         if client.isAdmin(message):
             if message.content == "exit":
                 client.multiLineCode = client.multiLineCode - 1
                 for x in range(len(client.multiLineChannels)):
                     thisChannel = client.multiLineChannels[x]
-                    if thisChannel[1] == "discordpyint":
+                    if thisChannel[1] == "terminalint":
                         client.multiLineChannels.pop(x)
-                        print("Closed discordpy environment")
-                        await message.channel.send("Closed discordpy environment")
+                        print("Closed terminal")
+                        await message.channel.send("Closed terminal")
             
             stdout = subprocess.Popen(message.content, shell=True, stdout=subprocess.PIPE).stdout
             output = stdout.read().decode("utf-8").strip("'b")

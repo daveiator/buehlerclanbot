@@ -67,7 +67,12 @@ class Commands(discord.Client):
         print(output)
         await message.channel.send(output)
         return
-
+    """
+    async def shutdown(client, message, text):
+        if(client.isAdmin(message)):
+            os.system("shutdown -f")
+        return
+    """
     async def restart(client, message, text):
         command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
         print(command)

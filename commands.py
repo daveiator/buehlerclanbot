@@ -31,6 +31,7 @@ class Commands(discord.Client):
         super().__init__(loop=loop, **options)
         self.multiLineCode = 0
         self.multiLineChannels = []
+        self.shutdownPermit = False
 
     def isAdmin(self, message):
             print("User "+str(message.author.id)+" is trying to acces admin functions")
@@ -67,12 +68,30 @@ class Commands(discord.Client):
         print(output)
         await message.channel.send(output)
         return
-    """
+    
     async def shutdown(client, message, text):
-        if(client.isAdmin(message)):
-            os.system("shutdown -f")
+        if(client.shutdownPermit or client.isAdmin(message)):
+            try:
+                match text[1]:
+                    case "arm":
+                        client.shutdownPermit = True
+                        await message.channel.send("Shutdown armed!")
+                        return
+                    case "disarm":
+                        client.shutdownPermit = False
+                        await message.channel.send("Shutdown disarmed!")
+                        return
+                    case "cancel":
+                        os.system("shutdown /a")
+                        await message.channel.send("Shutdown disarmed!")
+                        return
+            except IndexError:
+                t = 300
+                os.system("shutdown /s /t "+ str(t) +' /c " "')
+                await message.channel.send("Shutting down the host in "+ str(t) + " Seconds")
         return
-    """
+
+
     async def restart(client, message, text):
         command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
         print(command)

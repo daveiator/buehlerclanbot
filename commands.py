@@ -58,7 +58,7 @@ class Commands(discord.Client):
         return
 
     async def mock(client, message, text):
-        output = ''.join(random.choice((str.upper, str.lower))(c) for c in text[1])
+        output = ''.join(random.choice((str.upper, str.lower))(c) for c in ' '.join(text[1:len(text)]))
         await message.channel.send(output)
         return
 

@@ -1,8 +1,9 @@
 version: '3.0'
 services:
   buehlerclanbot:
+    container_name: Discord-BuehlerclanBot
     build: .
     privileged: true
     restart: unless-stopped
     volumes:
-      - ./
+      - ./:/opt/buehlerclanbot

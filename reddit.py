@@ -1,10 +1,13 @@
 import praw
-import utils
+import os
+import logging
 
-reddit = praw.Reddit(client_id=utils.getAttribute('reddit_id'),
-                    client_secret= utils.getAttribute('reddit_token'),
-                    user_agent='buehlerclanbot by daveiator')
-print("Reddit API online")
+def init():
+    global reddit
+    reddit = praw.Reddit(client_id=os.getenv("REDDIT_ID"),
+                        client_secret=os.getenv("REDDIT_TOKEN"),
+                        user_agent='buehlerclanbot by daveiator')
+    logging.info("Reddit API online")
 
 
 def subredditRand(sub):

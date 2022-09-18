@@ -5,7 +5,7 @@ import discord
 import random
 import subprocess
 import reddit
-import utils
+import logging
 
 
 
@@ -34,9 +34,9 @@ class Commands(discord.Client):
         self.shutdownPermit = False
 
     def isAdmin(self, message):
-            print("User "+str(message.author.id)+" is trying to acces admin functions")
-            if message.author.id == int(utils.getAttribute('admin_id')):
-                print("Admin command executed")
+            logging.warning("User "+str(message.author.id)+" is trying to acces admin functions")
+            if message.author.id == int(os.getenv("ADMIN_ID")):
+                logging.info("Admin command executed")
                 return 1
             return 0
 
@@ -47,11 +47,11 @@ class Commands(discord.Client):
                 #output = output + "\n" + text[1]
                 await message.channel.send(output)
             return
-
+    """
     async def a(client, message, text):
-        print("a")
+        logging.debug("a")
         return
-
+    """
     async def meowwoem(client, message, text):
         await message.channel.send("https://media.discordapp.net/attachments/736362433634893924/746391689123594341/image0-5-2.gif")
         await message.channel.send("https://media.discordapp.net/attachments/736362433634893924/746391689421258912/image0-3-1.gif")
@@ -65,7 +65,7 @@ class Commands(discord.Client):
 
     async def reddit(client, message, text):
         output = reddit.subredditRand(text[1])
-        print(output)
+        # print(output)
         await message.channel.send(output)
         return
     
@@ -94,7 +94,7 @@ class Commands(discord.Client):
 
     async def restart(client, message, text):
         command = sys.executable +" "+ '"'+os.path.join(os.getcwd(), "main.py"+'"')
-        print(command)
+        logging.debug(command)
         await message.channel.send("Restarting...")
         await message.channel.send("https://c.tenor.com/2kYfZmX6v6UAAAAC/stairs-da.gif")
 
@@ -109,7 +109,7 @@ class Commands(discord.Client):
             client.multiLineCode = client.multiLineCode + 1
             thisChannel = [message.channel, "terminalint"]
             client.multiLineChannels.append(thisChannel)
-            print("Starting terminal")
+            logging.info("Starting terminal")
             await message.channel.send("Starting terminal")
             return
         await message.channel.send("Higher permissions required")
@@ -123,13 +123,13 @@ class Commands(discord.Client):
                     thisChannel = client.multiLineChannels[x]
                     if thisChannel[1] == "terminalint":
                         client.multiLineChannels.pop(x)
-                        print("Closed terminal")
+                        logging.info("Closed terminal")
                         await message.channel.send("Closed terminal")
             
             stdout = subprocess.Popen(message.content, shell=True, stdout=subprocess.PIPE).stdout
             output = stdout.read().decode("utf-8").strip("'b")
             output = "```\n"+output+"\n```"
-            print(output)
+            logging.debug(output)
             await message.channel.send(output)
             return
         await message.channel.send("Higher permissions required")

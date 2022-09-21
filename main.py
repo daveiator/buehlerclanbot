@@ -59,6 +59,10 @@ def main():
         
         if re.search('.+us\\b', message.content):
             await message.add_reaction(discord.utils.get(bot.emojis, name="amogus"))
+        else:
+            for sus in filters.sus_list:
+                if sus in message.content:
+                    await message.add_reaction(discord.utils.get(bot.emojis, name="amogus"))
         
         for direct in filters.direct_emotes:
             if direct in message.content:

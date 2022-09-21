@@ -5,6 +5,7 @@ from tasks import gaming
 import logging
 import os
 from dotenv import load_dotenv
+import re
 
 def main():
     # Starting logging
@@ -55,9 +56,13 @@ def main():
         if message.author == bot.user:
             return
         from stuff import filters
-        for sus in filters.sus_list:
-            if sus in message.content:
-                await message.add_reaction(discord.utils.get(bot.emojis, name="amogus"))
+        
+        if re.search('.+us\\b', message.content):
+            await message.add_reaction(discord.utils.get(bot.emojis, name="amogus"))
+        else:
+            for sus in filters.sus_list:
+                if sus in message.content:
+                    await message.add_reaction(discord.utils.get(bot.emojis, name="amogus"))
         
         for direct in filters.direct_emotes:
             if direct in message.content:

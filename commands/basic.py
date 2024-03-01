@@ -10,8 +10,7 @@ def setup(bot):
 
 @commands.command()
 async def meowwoem(ctx):
-    await ctx.send("https://media.discordapp.net/attachments/736362433634893924/746391689123594341/image0-5-2.gif")
-    await ctx.send("https://media.discordapp.net/attachments/736362433634893924/746391689421258912/image0-3-1.gif")
+    await ctx.send("https://tenor.com/view/cat-gif-25399804")
 
 @commands.command()
 async def mock(ctx, *, text):

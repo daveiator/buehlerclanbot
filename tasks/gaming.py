@@ -2,7 +2,16 @@ from discord.ext import tasks, commands
 from discord.utils import get
 import discord
 import os
+import random
 
+no = [
+    'Nah',
+    'Fuck u',
+    'No',
+    "I'm sorry, but I cannot fulfill this request as it goes against OpenAI use policy",
+    'Nope',
+    'Huh?',
+]
 class GamingTimeChecker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,13 +30,42 @@ class GamingTimeChecker(commands.Cog):
                 role = get(guild.roles, id=int(f.read()))
             if channel == None or role == None:
                 return
-            gaming = True
+            self.bot.gaming[guild.id] = True
             for member in role.members:
                 if member.status == discord.Status.online:
                     continue
                 else:
-                    gaming = False
-                    pass
-            if gaming:
+                    self.bot.gaming[guild.id] = False
+                    self.bot.shut_up[guild.id] = False
+                    continue
+            if self.bot.shut_up.get(guild.id, False):
+                continue
+            if self.bot.gaming.get(guild.id, False):
                 await channel.send(role.mention)
-            pass
+                await channel.send("https://tenor.com/view/peaches-the-dog-damian-walter-hitting-gif-16355532")
+
+async def shut_up(bot, message):
+    if not 'shut' in message.content.lower():
+        return
+    print("Shutup detected!")
+    for guild in bot.guilds:
+        if bot.shut_up.get(guild.id, False):
+            continue
+        try:
+            with open(os.path.join(os.getcwd(), 'data/' + str(guild.id) + '_gaming_channel.txt'), 'r') as f:
+                channel = bot.get_channel(int(f.read()))
+        except:
+            return
+        with open(os.path.join(os.getcwd(), 'data/' + str(guild.id) + '_gaming_role.txt'), 'r') as f:
+            role = get(guild.roles, id=int(f.read()))
+        if channel == None or role == None:
+            return
+        if message.channel == channel:
+            if random.random() < 0.25:
+                print("Shutup success!")
+                bot.shut_up[guild.id] = True
+                await channel.send("ok")
+                return
+            print("Better luck next time!")
+            await channel.send(random.choice(no))
+

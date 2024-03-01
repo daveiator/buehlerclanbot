@@ -4,6 +4,9 @@ import os
 def setup(bot):
     bot.add_command(gaming)
 
+    bot.shut_up = {}
+    bot.gaming = {}
+
 
 @commands.command()
 async def gaming(ctx, arg1=None, arg2=None):

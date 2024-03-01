@@ -22,7 +22,8 @@ def main():
     botPrefix = os.getenv("BOT_PREFIX")
     global status 
     #status = discord.Streaming(name="shreksophone",url="https://www.youtube.com/watch?v=pxw-5qfJ1dk&t=291s")
-    status = discord.Streaming(name="huh?", url="https://www.youtube.com/watch?v=4kEO7VjKRB8")
+    #status = discord.Streaming(name="huh?", url="https://www.youtube.com/watch?v=4kEO7VjKRB8")
+    status = discord.Streaming(name="bibletime", url="https://www.youtube.com/watch?v=GTh5J0HsIAg")
 
     logging.info("Starting bot")
     intents = discord.Intents.all()
@@ -55,6 +56,8 @@ def main():
     async def on_message(message):
         if message.author == bot.user:
             return
+        
+        # Reaction Emotes
         from stuff import filters
         
         if re.search('.+us\\b', message.content):
@@ -68,6 +71,10 @@ def main():
             if direct in message.content:
                 await message.add_reaction(discord.utils.get(bot.emojis, name=direct))
         
+        # Gaming Shut up
+        from tasks import gaming
+        await gaming.shut_up(bot, message)
+
         await bot.process_commands(message)
     
     bot.run(os.getenv("TOKEN"))

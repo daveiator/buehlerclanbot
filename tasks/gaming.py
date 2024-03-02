@@ -47,9 +47,8 @@ class GamingTimeChecker(commands.Cog):
 async def shut_up(bot, message):
     if not 'shut' in message.content.lower():
         return
-    print("Shutup detected!")
     for guild in bot.guilds:
-        if bot.shut_up.get(guild.id, False):
+        if bot.shut_up.get(guild.id, False) or not bot.gaming.get(guild.id, False):
             continue
         try:
             with open(os.path.join(os.getcwd(), 'data/' + str(guild.id) + '_gaming_channel.txt'), 'r') as f:

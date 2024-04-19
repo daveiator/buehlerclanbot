@@ -18,6 +18,7 @@ async def restart(ctx):
     os.system(command)
     sys.exit("Process restarting")
 
+#Why is this even here?
 def isAdmin(self, message):
             logging.warning("User "+str(message.author.id)+" is trying to acces admin functions")
             if message.author.id == int(os.getenv("ADMIN_ID")):

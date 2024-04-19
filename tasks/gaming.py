@@ -3,15 +3,8 @@ from discord.utils import get
 import discord
 import os
 import random
+from stuff import no
 
-no = [
-    'Nah',
-    'Fuck u',
-    'No',
-    "I'm sorry, but I cannot fulfill this request as it goes against OpenAI use policy",
-    'Nope',
-    'Huh?',
-]
 class GamingTimeChecker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

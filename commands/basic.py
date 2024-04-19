@@ -1,5 +1,7 @@
 from discord.ext import commands
 import random
+import commands.system as sys
+from stuff import no
 
 def setup(bot):
     bot.add_command(meowwoem)
@@ -21,6 +23,9 @@ async def mock(ctx, *, text):
 async def spam(ctx, amount, *, text):
     if not amount.isdigit():
         await ctx.send("Amount must be a number")
+        return
+    if int(amount) > 21:
+        await ctx.send(random.choice(no))
         return
     for x in range(int(amount)):
         await ctx.send(text)

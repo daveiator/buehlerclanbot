@@ -18,6 +18,6 @@ direct_emotes = [
     'dababy',
     'jes',
     'bonk',
-    'yes'
+    'yes',
     'lea'
 ]

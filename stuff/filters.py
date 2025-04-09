@@ -19,4 +19,5 @@ direct_emotes = [
     'jes',
     'bonk',
     'yes'
+    'lea'
 ]
